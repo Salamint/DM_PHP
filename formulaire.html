@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+<!--  Déclarations (titre de l'onglet et encodage des caractères -->
+<head>
+	<title>
+		DS - Programmation en langage PHP - Formulaire
+	</title>
+	<meta charset="utf-8"/>
+ </head>
+
+<!--  Page du site marchand de vente de mangas --> 
+ <body>
+ <h1> Choisissez les mangas qui vous intéressent</h1>
+ <h2> Liste des mangas </h2> 
+ <div class ="data-acheteur">
+ 
+	<!--  Mise en place du formulaire de saisie de la commande -->
+	<form method="POST" action="recapitulatif.php"> <!--  Choix possible entre la méthode GET et POST -->
+
+	<!--  Tableau descriptif des mangas en vente -->
+	<table border="1">  
+		<tr>
+			<th>Photo</th>
+			<th>Auteur</th>
+			<th>Description</th>
+			<th>Prix HT (en €)</th>
+			<th>Quantité</th>
+		</tr>  
+		<tr>
+			<th><img SRC="images/one_piece.png" ALT="manga one piece" TITLE="manga one piece"></th>
+			<th><a href="https://fr.wikipedia.org/wiki/Eiichir%C5%8D_Oda">Eiichirō Oda</a></th>
+			<th><p>L'histoire suit les aventures de Monkey D. Luffy, un garçon dont le corps a acquis les propriétés du caoutchouc après avoir mangé par inadvertance un fruit du démon.</p></th>
+			<th>15</th>
+"			<th><INPUT type="text" name="quantité_one_piece" value="1"><br></th>
+"		</tr>    
+		<tr>
+			<th><img SRC="images/naruto.png" ALT="manga Naruto" TITLE="manga Naruto"></th>
+			<th><a href="https://fr.wikipedia.org/wiki/Masashi_Kishimoto">Masashi Kishimoto</a></th>
+			<th><p>L'histoire de Naruto se déroule dans un monde rétro-futuriste où, bien que de nombreuses technologies modernes aient vu le jour, les ninjas et les samouraïs sont restés de véritables puissances militaires.</p></th>
+			<th>12</th>
+			<th><INPUT type="text" name="quantité_naruto" value="1"><br></th>
+		</tr>    
+
+	</table>
+		<br>
+		<br>
+	
+	<!--  Saisie des informations personnelles de l'acheteur -->
+	<h2> Saisissez vos informations </h2>
+ 
+    <label>Civilité </label>
+    <input type="radio" name="civ" id="civ1" value="1" >Monsieur
+    <input type="radio" name="civ" id="civ2" value="2" checked="checked">Madame
+		<br>
+		<br>
+		<br>
+	<label for="nom">Nom : (obligatoire)</label>  
+	<input type="text" name="nom" maxlength="30" required> 
+		<br>
+		<br>
+	<label for="prenom">Prénom : (obligatoire)</label>  
+	<input type="text" name="prenom" maxlength="30" required> 
+		<br>
+		<br>
+	<label for="email">Email :</label> 
+    <input type="email" name="email" id="mail" placeholder="Votre adresse mail" /> <br>
+	 
+		<br>
+		<br>
+	<label for="telephone">Téléphone  (obligatoire)</label>
+    <input type="tel" name="telephone" id="telephone" pattern="[0-9]{10}" maxlength="10" placeholder="Entrez votre numéro de tel" required>  
+		<br>
+		<br>
+	<label for="adresse">Votre adresse : (obligatoire)</label>  
+		<br>
+		<br>
+	<textarea rows="4" name="adresse" required>Tapez ici votre adresse</textarea>
+
+	<input type="submit" value="Valider">
+
+	</form>
+</div>
+
+</body>
+</html>
+ 
