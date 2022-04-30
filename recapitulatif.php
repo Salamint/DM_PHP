@@ -3,6 +3,11 @@
 // Inclusion du fichier d'entête
 include "header.php";
 
+// Constantes pour le calcul du prix
+const TVA = 5.5;
+const POURCENTS_TVA = 1 + (TVA / 100);
+
+// Suppression des variable de session représentant le pagnier et la commande
 unset($_SESSION['cart']);
 unset($_SESSION['command']);
 
@@ -56,24 +61,32 @@ if (count($missingFields) > 0)
 }
 
 
+// Lorsque le script n'est pas fermé, aucun champ n'est manquant
+
+
 // Calcul des quantités et des prix
 $quantiteOnePiece = intval($_POST['quantité_one_piece']);
 $quantiteNaruto = intval($_POST['quantité_naruto']);
 
-const TVA = 5.5;
-const POURCENTS_TVA = 1 + (TVA / 100);
+// Calcul TVA et prix TTC
 $prixOnePiece = 15;
 $prixNaruto = 12;
 
 $prixHorsTaxe = ($quantiteOnePiece * $prixOnePiece) + ($quantiteNaruto * $prixNaruto);
 $prixTTC = $prixHorsTaxe * POURCENTS_TVA;
 
-// Définition de la civilité (si une valeur incorrecte a été rentrée, l'utilisateur est considéré comme indéfini(e))
-$civilite = "Indéfini(e)";
+// Définition de la civilité
 if ($_POST['civ'] == "1")
     $civilite = "Monsieur";
 elseif ($_POST['civ'] == "2")
     $civilite = "Madame";
+else
+{
+    echo "</header>";
+    echo "<section><p>Merci de rentrer un civilité valide !</p></section>";
+    include 'footer.php';
+    exit;
+}
 ?>
 
 <?php if(is_logged()): ?>

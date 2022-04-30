@@ -1,24 +1,43 @@
 <?php
-// Initialisation du fichier d'entête et des informations communes à toutes les pages
-// (comme le CSS, l'entête HTML, le nombre de visiteurs et la connection à la base de données...).
-$nombreDeVisiteurs = 1;
 
-/**
- * Une fonction permettant de récupérer un attribut de session, de le convertir en chaîne de caractère
- * et d'en échapper le code HTML/CSS/JS, afin de l'afficher, pour gagner du temps et empêcher l'insertion de code malveillant.
- * Exemple :
- * <p><?=session_attribute("username")?></p>
- * Au lieu de :
- * <p><?=htmlspecialchars((string) $_SESSION["username"])?></p>
- */
-function session_attribute(string $attribute) : string
+// nom du fichier contenant le nombre d'utilisateur ayant visité le site
+$viewerNumberFileName = "nombre_de_visiteur.log";
+
+// Au démarrage, si le fichier existe,
+if (file_exists($viewerNumberFileName))
 {
-	// Convertit l'attribut de session récupéré en chaîn e de caractères.
-	$attribute = (string) $_SESSION[$attribute];
-	// Echappe le code HTML/CSS/JS potentiellement inséré.
-	return htmlspecialchars($attribute);
+	// Lire le nombre de visiteurs
+	$file = fopen($viewerNumberFileName, "r");
+	$nombreDeVisiteurs = intval(fread($file, filesize($viewerNumberFileName)));
+	fclose($file);
+}
+else
+{
+	// Sinon, créer le fichier du nombre de visiteur, et initialiser la variable à 0
+	$file = fopen($viewerNumberFileName, "w");
+	$nombreDeVisiteurs = 0;
+	fwrite($file, (string) $nombreDeVisiteurs);
+	fclose($file);
 }
 
+
+/**
+ * Fonction utilisée pour rafraîchir le nombre de visiteur du site,
+ * c'est à dire incrémenter la variable de comptage de 1 et réécrire
+ * la nouvelle valeur dans le fichier du nombre de visiteur.
+ */
+function refresh_viewer_number()
+{
+	global $viewerNumberFileName, $nombreDeVisiteurs;
+	$nombreDeVisiteurs += 1;
+	$file = fopen($viewerNumberFileName, "w");
+	fwrite($file, (string) $nombreDeVisiteurs);
+}
+
+
+/**
+ * Met fin à la session en cours en la vidant de ses attributs de session.
+ */
 function end_session()
 {
 	if (session_id())
@@ -28,27 +47,28 @@ function end_session()
 	}
 }
 
-function init_session() : bool
-{
-	if (!session_id())
-	{
-		session_start();
-		session_regenerate_id();
-		return true;
-	}
-	return false;
-}
 
-
+/**
+ * Vérifie que l'utilisateur est connecté, en vérifiant si les attributs de session
+ * 'username' et 'password' existent.
+ */
 function is_logged() : bool
 {
 	return isset($_SESSION['username']) and isset($_SESSION['password']);
 }
 
 
-init_session();
+// Crée la session vide, afin de commencer à travailler
+if (!session_id())
+{
+	session_start();
+	session_regenerate_id();
+}
 
+
+// Si la requête POST indique de se déconnecter
 if (isset($_POST['disconnect']))
+	// Mettre fin à la session
     end_session();
 ?>
 
@@ -65,6 +85,8 @@ if (isset($_POST['disconnect']))
 		<header>
 			<nav>
 				<a href="index.php"><button id="icon">Site Marchand</button></a>
+
+				<!-- Si l'utillisateur est connecté, afficher un bouton de déconnexion -->
 				<?php if(is_logged()): ?>
 					<form action="index.php" method="POST">
 						<input id="disconnect" name="disconnect" type="submit" value="Déconnexion">
