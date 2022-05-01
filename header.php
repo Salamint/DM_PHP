@@ -1,5 +1,8 @@
 <?php
 
+// Modifie le fuseau horaire par défaut
+date_default_timezone_set('Europe/Paris');
+
 // nom du fichier contenant le nombre d'utilisateur ayant visité le site
 $viewerNumberFileName = "nombre_de_visiteur.log";
 
