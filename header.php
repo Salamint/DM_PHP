@@ -89,7 +89,7 @@ if (isset($_POST['disconnect']))
 				<!-- Si l'utillisateur est connecté, afficher un bouton de déconnexion -->
 				<?php if(is_logged()): ?>
 					<form action="index.php" method="POST">
-						<input id="disconnect" name="disconnect" type="submit" value="Déconnexion">
+						<input name="disconnect" type="submit" value="Déconnexion">
 					</form>
 				<?php endif; ?>
 			</nav>

@@ -76,10 +76,9 @@ if (isset($_POST['valid_connection']))
         <hr>
         <form action="index.php" id="connection-form" method="POST">
             <h3>Connexion :</h3>
-            <input class="connection-input" name="username" placeholder="Identifiant" required type="text">
-            <input class="connection-input" name="password" placeholder="Mot de passe" required type="password">
-            <input name="action" type="hidden" value="connect">
-            <input id="submit-connection" name="valid_connection" type="submit" value="Connexion">
+            <input name="username" placeholder="Identifiant" required type="text">
+            <input name="password" placeholder="Mot de passe" required type="password">
+            <input name="valid_connection" type="submit" value="Connexion">
         </form>
     <?php endif; ?>
 </section>
